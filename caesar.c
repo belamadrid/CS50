@@ -34,7 +34,9 @@ int main(int argc, string argv[])
     int k = atoi(argv[1]);
 
 
-    string s= get_string("Write down your text: \n");
+    string s= get_string("plaintext:  ");
+
+    printf("ciphertext: ");
 
 //goes through each part of string
     for (i = 0; i<strlen(s); i++)
@@ -44,6 +46,7 @@ int main(int argc, string argv[])
         {
             printf("%c", s[i]);
         }
+
 
         //prints upper case alphabetical characters through ciphertext
         if (isalpha(s[i]) && isupper(s[i]))
