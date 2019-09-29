@@ -25,6 +25,7 @@ void print_winner(void);
 
 int main(int argc, string argv[])
 {
+
     // Check for invalid usage
     if (argc < 2)
     {
@@ -74,21 +75,42 @@ bool vote(string name)
         {
             candidates[j].votes++;
             return true;
-            printf("%i", candidates[j].votes);
+
         }
 
     }
     return false;
 }
 
-
-
-
-
-// Print the winner (or winners) of the election
 void print_winner(void)
 {
-    // TODO
-    return;
+
+int max = 0;
+for (int a = 0; a<candidate_count; a++)
+    {
+        if (candidates[a].votes > max)
+        {
+            max=candidates[a].votes;
+
+        }
+
+    }
+
+for (int a = 0; a<candidate_count; a++)
+    {
+        if (candidates[a].votes == max)
+        {
+           printf("%s\n", candidates[a].name);
+
+        }
+
+    }
+
+
+
 }
+
+
+
+
 
