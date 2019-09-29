@@ -71,8 +71,9 @@ bool vote(string name)
     for (int j = 0; j < candidate_count; j++)
     {
         int result = strcmp(name, candidates[j].name);
-        if (result==0)
+        if (result == 0)
         {
+            //update vote total
             candidates[j].votes++;
             return true;
 
@@ -84,28 +85,28 @@ bool vote(string name)
 
 void print_winner(void)
 {
-
-int max = 0;
-for (int a = 0; a<candidate_count; a++)
+//check for max
+    int max = 0;
+    for (int a = 0; a < candidate_count; a++)
     {
         if (candidates[a].votes > max)
         {
-            max=candidates[a].votes;
+            max = candidates[a].votes;
 
         }
 
     }
-
-for (int a = 0; a<candidate_count; a++)
+//link candidate with max votes to max names and print value
+//Claire Recamier informed me I should try to use "a second loop" in order to link max votes to name.
+    for (int a = 0; a < candidate_count; a++)
     {
         if (candidates[a].votes == max)
         {
-           printf("%s\n", candidates[a].name);
+            printf("%s\n", candidates[a].name);
 
         }
 
     }
-
 
 
 }
