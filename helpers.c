@@ -6,9 +6,9 @@
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
 {
 
-   for (int i=0; i<= height; i++)
+   for (int i=0; i< height; i++)
    {
-       for(int j=0; i<=width; i++)
+       for(int j=0; j< width; j++)
        {
            RGBTRIPLE pixel = image[i][j];
            float average = ((pixel.rgbtRed + pixel.rgbtBlue + pixel.rgbtGreen)/3);
@@ -26,9 +26,9 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
 void sepia(int height, int width, RGBTRIPLE image[height][width])
 {
 
-    for (int i=0; i<= height; i++)
+    for (int i=0; i< height; i++)
    {
-       for(int j=0; i<=width; i++)
+       for(int j=0; j<width; j++)
        {
            RGBTRIPLE pixel = image[i][j];
            float sepiaRed = .393 * pixel.rgbtRed + .769 * pixel.rgbtGreen + .189 * pixel.rgbtBlue;
