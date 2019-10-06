@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
     //open memory card
     FILE *file = fopen(argv[1], "r");
-    if (file == \0)
+    if (file == NULL)
     {
         printf("File did not open");
     }
@@ -44,7 +44,5 @@ int main(int argc, char *argv[])
         }
     }
 
-    fclose(argv[1]);
-    fclose(outfile);
 
 }
