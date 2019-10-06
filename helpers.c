@@ -81,6 +81,51 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
    {
        for(int j=0; j<width; j++)
        {
+          int sumR=0;
+          int sumB=0;
+          int sumG=0;
+          int numPixels=0;
+          RGBTRIPLE a[height][width];
+          for (int k=i-1; k< i+1; k++)
+          {
+              for (int l=j-1; l< j+1; l++)
+              {
+                  if (0<l && 0<k && l<width && k<height)
+                  {
+                      sumR += image[k][l].rgbtRed;
+                      sumG += image[k][l].rgbtGreen;
+                      sumB += image[k][l].rgbtBlue;
+                      numPixels++;
+
+                  }
+
+                  int avgR= round(sumR/(numPixels * 1.0));
+                  int avgG= round(sumG/(numPixels*1.0));
+                  int avgB= round(sumB/(numPixels*1.0));
+
+                  a[i][j].rgbtRed= avgR;
+                  a[i][j].rgbtGreen= avgG;
+                  a[i][j].rgbtBlue= avgB;
+              }
+          }
+
+       }
+   }
+   return;
+}
+
+
+/*
+               float redsurrounds= image[k][l].rgbtRed ;
+               float bluesurrounds= image[k][l].rgbtBlue;
+               image[k][l].rgbtGreen = float greensurrounds;
+              }
+          }
+
+
+
+
+
            int redaverage =round( (float)(image[i-1][j-1].rgbtRed + image[i-1][j].rgbtRed + image[i-1][j+1].rgbtRed + image[i][j-1].rgbtRed + image[i][j].rgbtRed + image[i][j+1].rgbtRed + image[i+1][j-1].rgbtRed + image[i+1][j].rgbtRed + image[i+1][j+1].rgbtRed)/9);
            int blueaverage =round( (float)(image[i-1][j-1].rgbtBlue + image[i-1][j].rgbtBlue + image[i-1][j+1].rgbtBlue + image[i][j-1].rgbtBlue + image[i][j].rgbtBlue + image[i][j+1].rgbtBlue + image[i+1][j-1].rgbtBlue + image[i+1][j].rgbtBlue + image[i+1][j+1].rgbtBlue)/9);
            int greenaverage =round( (float)(image[i-1][j-1].rgbtGreen + image[i-1][j].rgbtGreen + image[i-1][j+1].rgbtGreen + image[i][j-1].rgbtGreen + image[i][j].rgbtGreen + image[i][j+1].rgbtGreen + image[i+1][j-1].rgbtGreen + image[i+1][j].rgbtGreen + image[i+1][j+1].rgbtGreen)/9);
@@ -92,3 +137,4 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
    }
     return;
 }
+*/
