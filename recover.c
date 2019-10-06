@@ -22,7 +22,6 @@ int main(int argc, char *argv[])
     FILE* outfile;
     while (fread( buff, 1, 512, file) == 512)
     {
-        printf("i");
         if (buff[0]== 0xff && buff[1] == 0xd8 && buff[2] == 0xff && (buff[3] & 0xf0) == 0xe0)
         {
             if(jpgnum > 0)
