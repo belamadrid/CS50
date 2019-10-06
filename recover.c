@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     unsigned char buff[512];
     int jpgnum=0;
     char filename[8];
-    FILE* outfile = fopen(filename ,"w");
+    FILE* outfile;
     while (fread( buff, 1, 512, file) == 512)
     {
         if (buff[0]== 0xff && buff[1] == 0xd8 && buff[2] == 0xff && (buff[3] & 0xf0) == 0xe0)
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
             sprintf(filename, "%03i.jpg", jpgnum);
             jpgnum++;
             fwrite(buff, 1, 512, outfile);
-
+            outfile = fopen(filename ,"w");
         }
         else
         {
