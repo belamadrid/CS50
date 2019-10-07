@@ -6,52 +6,56 @@
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
 {
 
-   for (int i=0; i< height; i++)
-   {
-       for(int j=0; j< width; j++)
-       {
-           int average =round( (float)(image[i][j].rgbtRed + image[i][j].rgbtBlue + image[i][j].rgbtGreen)/3);
-           image[i][j].rgbtRed = average;
-           image[i][j].rgbtBlue = average;
-           image[i][j].rgbtGreen = average;
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            //take average and set image colors to average
+            int average = round((float)(image[i][j].rgbtRed + image[i][j].rgbtBlue + image[i][j].rgbtGreen) / 3);
+            image[i][j].rgbtRed = average;
+            image[i][j].rgbtBlue = average;
+            image[i][j].rgbtGreen = average;
 
-       }
-   }
-   return;
+        }
+    }
+    return;
 }
 
 // Convert image to sepia
 void sepia(int height, int width, RGBTRIPLE image[height][width])
 {
 
-    for (int i=0; i< height; i++)
-   {
-       for(int j=0; j<width; j++)
-       {
-           int sepiaRed = round( .393 * image[i][j].rgbtRed + .769 * image[i][j].rgbtGreen + .189 * image[i][j].rgbtBlue);
-           int sepiaGreen = round( .349 * image[i][j].rgbtRed + .686 * image[i][j].rgbtGreen + .168 * image[i][j].rgbtBlue);
-           int sepiaBlue = round ( .272 * image[i][j].rgbtRed + .534 * image[i][j].rgbtGreen + .131 * image[i][j].rgbtBlue);
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            int sepiaRed = round(.393 * image[i][j].rgbtRed + .769 * image[i][j].rgbtGreen + .189 * image[i][j].rgbtBlue);
+            int sepiaGreen = round(.349 * image[i][j].rgbtRed + .686 * image[i][j].rgbtGreen + .168 * image[i][j].rgbtBlue);
+            int sepiaBlue = round(.272 * image[i][j].rgbtRed + .534 * image[i][j].rgbtGreen + .131 * image[i][j].rgbtBlue);
 
-           if (sepiaRed >255)
-           {
-               sepiaRed=255;
-           }
+            //make sure 255 is limit
+            if (sepiaRed > 255)
+            {
+                sepiaRed = 255;
+            }
 
-           if (sepiaGreen >255)
-           {
-               sepiaGreen=255;
-           }
+            if (sepiaGreen > 255)
+            {
+                sepiaGreen = 255;
+            }
 
-           if (sepiaBlue >255)
-           {
-               sepiaBlue=255;
-           }
-            image[i][j].rgbtRed =sepiaRed;
+            if (sepiaBlue > 255)
+            {
+                sepiaBlue = 255;
+            }
+
+            //set sepias into original pixels
+            image[i][j].rgbtRed = sepiaRed;
             image[i][j].rgbtGreen = sepiaGreen;
-            image[i][j].rgbtBlue=sepiaBlue;
+            image[i][j].rgbtBlue = sepiaBlue;
 
-       }
-   }
+        }
+    }
 
     return;
 }
@@ -59,15 +63,16 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
 // Reflect image horizontally
 void reflect(int height, int width, RGBTRIPLE image[height][width])
 {
-   for (int i=0; i< height; i++)
-   {
-       for(int j=0; j<width/2; j++)
-       {
-           RGBTRIPLE a= image[i][j];
-           image[i][j]=image[i][width - 1 - j];
-           image[i][width - 1 - j] = a;
-       }
-   }
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width / 2; j++)
+        {
+            //flip pixel place from left to right
+            RGBTRIPLE a = image[i][j];
+            image[i][j] = image[i][width - 1 - j];
+            image[i][width - 1 - j] = a;
+        }
+    }
 
 
 
@@ -78,50 +83,55 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     RGBTRIPLE a[height][width];
-    for (int i=0; i< height; i++)
-   {
-       for(int j=0; j < width; j++)
-       {
-          int sumR=0;
-          int sumB=0;
-          int sumG=0;
-          int numPixels=0;
-          for (int k=i-1; k< i+2; k++)
-          {
-              for (int l=j-1; l< j+2; l++)
-              {
-                  if (l >= 0 && k >= 0 && l < width && k < height)
-                  {
-                      sumR += image[k][l].rgbtRed;
-                      sumG += image[k][l].rgbtGreen;
-                      sumB += image[k][l].rgbtBlue;
-                      numPixels++;
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            //set sums = 0
+            int sumR = 0;
+            int sumB = 0;
+            int sumG = 0;
+            int numPixels = 0;
+            //make k and l go from i and j before to i and j after
+            for (int k = i - 1; k < i + 2; k++)
+            {
+                for (int l = j - 1; l < j + 2; l++)
+                {
+                    //set second loop
+                    if (l >= 0 && k >= 0 && l < width && k < height)
+                    {
+                        //add k,l pixel color to color sum
+                        sumR += image[k][l].rgbtRed;
+                        sumG += image[k][l].rgbtGreen;
+                        sumB += image[k][l].rgbtBlue;
+                        numPixels++;
 
-                  }
+                    }
+                    //divide sum by number of pixels
+                    int avgR = round(sumR / (numPixels * 1.0));
+                    int avgG = round(sumG / (numPixels * 1.0));
+                    int avgB = round(sumB / (numPixels * 1.0));
+                    //set average into new variable a
+                    a[i][j].rgbtRed = avgR;
+                    a[i][j].rgbtGreen = avgG;
+                    a[i][j].rgbtBlue = avgB;
+                }
+            }
 
-                  int avgR= round(sumR/(numPixels* 1.0));
-                  int avgG= round(sumG/(numPixels*1.0));
-                  int avgB= round(sumB/(numPixels*1.0));
 
-                  a[i][j].rgbtRed= avgR;
-                  a[i][j].rgbtGreen= avgG;
-                  a[i][j].rgbtBlue= avgB;
-              }
-          }
-
-
-       }
-   }
-   for (int i = 0; i < height; i++)
-   {
-       for (int j = 0; j < width; j++)
-       {
-            image[i][j].rgbtRed= a[i][j].rgbtRed;
-            image[i][j].rgbtGreen= a[i][j].rgbtGreen;
-            image[i][j].rgbtBlue= a[i][j].rgbtBlue;
-       }
-   }
-   return;
+        }
+    }
+    //set new image colors into new for loop
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            image[i][j].rgbtRed = a[i][j].rgbtRed;
+            image[i][j].rgbtGreen = a[i][j].rgbtGreen;
+            image[i][j].rgbtBlue = a[i][j].rgbtBlue;
+        }
+    }
+    return;
 }
 
 
