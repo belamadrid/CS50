@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+//went through walkthrough in office hours 10/6
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -20,7 +21,6 @@ int main(int argc, char *argv[])
     unsigned char buff[512];
     //start jpgnumber count at 0
     int jpgnum = 0;
-    //
     char filename[8];
     FILE *outfile;
     //while block size is 512
