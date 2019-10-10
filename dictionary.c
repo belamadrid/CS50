@@ -56,12 +56,16 @@ bool check(const char *word)
 #define BASE (256)
 
 unsigned int hash(const char* word)
-{
-    unsigned int hash = 0;
-    for (int i=0, n=strlen(word); i<n; i++)
-        hash = (hash << 2) ^ word[i];
-    return hash % N;
-}
+ {
+     unsigned long hash = 5381;
+
+     for (const char* ptr = word; *ptr != '\0'; ptr++)
+     {
+         hash = ((hash << 5) + hash) + tolower(*ptr);
+     }
+
+     return hash % N;
+ }
 
 
 
