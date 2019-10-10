@@ -115,8 +115,9 @@ bool load(const char *dictionary)
         table[h] = newNode;
 
     }
-
+    fclose(dictionaryfile);
     return true;
+
 }
 
 // Returns number of words in dictionary if loaded, else 0 if not yet loaded
@@ -129,19 +130,19 @@ unsigned int size(void)
 // Unloads dictionary from memory, returning true if successful else false
 bool unload(void)
 {
-    node *temp = NULL;
-    while (temp != NULL)
-    for (int i=0; i<N i++)
+
+    for (int i = 0; i < N; i++)
     {
-        while (temp != NULL)
+        node *cursor = table[i];
+        while (cursor != NULL)
         {
-            node *placeholder = temp;
-            temp = temp -> next;
+            node *placeholder = cursor;
+            cursor = cursor -> next;
             free(placeholder);
-            return true;
+
         }
     }
 
-    free(temp);
-    return false;
+
+    return true;
 }
