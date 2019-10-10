@@ -59,8 +59,9 @@ unsigned int hash (const char* word)
     {
         hash = 31*hash + word[i];
     }
-    return hash % LENGTH;
+    return hash % N;
 }
+
 
 
 
