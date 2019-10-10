@@ -51,28 +51,18 @@ bool check(const char *word)
     return 0;
 */
 
-#define MULTIPLIER (37)
-unsigned int hash(const char *s)
+
+int hash (const char* word)
 {
-
-    unsigned long h;
-    unsigned const char *us;
-
-    // cast s to unsigned const char
-    // this ensures that elements of s will be treated as having values >= 0
-    us = (unsigned const char *) s;
-
-    h = 0;
-    while(*us != '\0')
+    unsigned int hash = 0;
+    for (int i = 0 ; word[i] != '\0' ; i++)
     {
-        h = h * MULTIPLIER + *us;
-        us++;
+        hash = 31*hash + word[i];
     }
-
-    return h;
-
-
+    return hash % SIZE;
 }
+
+
 
 
 unsigned int wordcount = 0;
