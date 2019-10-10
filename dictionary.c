@@ -36,7 +36,7 @@ bool check(const char *word)
         {
             return true;
         }
-        cursor = cursor -> next;
+        cursor = cursor->next;
     }
 
 
@@ -54,7 +54,7 @@ bool check(const char *word)
 #define MULTIPLIER (37)
 unsigned int hash(const char *s)
 {
-
+/*
     unsigned long h;
     unsigned const char *us;
 
@@ -70,8 +70,8 @@ unsigned int hash(const char *s)
     }
 
     return h;
-
-   // return 0;
+*/
+   return 0;
 }
 
 
@@ -80,12 +80,14 @@ unsigned int wordcount = 0;
 bool load(const char *dictionary)
 
 {
+/*
     //initialize hash table (set each bucket to null)
     for (int i = 0; i <= 25; i++)
     {
         //set hash table buckets to null
         table[i] = NULL;
     }
+*/
 
     // attempt to open our file
     FILE *dictionaryfile = fopen(dictionary, "r");
@@ -97,25 +99,24 @@ bool load(const char *dictionary)
 
     //iterate thru file one word at a time
     //fscanf
-    char wordd[LENGTH];
+    char wordd[LENGTH + 1];
     while (fscanf(dictionaryfile, "%s", wordd) != EOF)
     {
-        node *newNode =  malloc(sizeof(node));
+        int h = hash(wordd);
+        node *newNode = malloc(sizeof(node));
         if (newNode == NULL)
         {
-            printf("error: malloc failed");
             return false;
         }
 
         strcpy(newNode -> word, wordd);
         wordcount++;
-        node *head = NULL;
-        newNode -> next = head;
-        head = newNode;
+        newNode -> next = table[h];
+        table[h] = newNode;
+
     }
 
-
-    return false;
+    return true;
 }
 
 // Returns number of words in dictionary if loaded, else 0 if not yet loaded
@@ -134,6 +135,7 @@ bool unload(void)
         node *placeholder = temp;
         temp = temp -> next;
         free(placeholder);
+        return true;
     }
 
     free(temp);
