@@ -55,15 +55,12 @@ bool check(const char *word)
 /* with digits in the range 1 to 255 */
 #define BASE (256)
 
-unsigned int hash(const char *word)
+unsigned int hash(const char* word)
 {
-    unsigned long hash = 5381;
-    int c = 0;
-
-    while (c == *word++)
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-
-    return hash;
+    unsigned int hash = 0;
+    for (int i=0, n=strlen(word); i<n; i++)
+        hash = (hash << 2) ^ word[i];
+    return hash % N;
 }
 
 
