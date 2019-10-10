@@ -131,11 +131,15 @@ bool unload(void)
 {
     node *temp = NULL;
     while (temp != NULL)
+    for (int i=0; i<N i++)
     {
-        node *placeholder = temp;
-        temp = temp -> next;
-        free(placeholder);
-        return true;
+        while (temp != NULL)
+        {
+            node *placeholder = temp;
+            temp = temp -> next;
+            free(placeholder);
+            return true;
+        }
     }
 
     free(temp);
