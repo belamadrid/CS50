@@ -57,21 +57,13 @@ bool check(const char *word)
 
 unsigned int hash(const char *word)
 {
-    const char *s=NULL;
-    unsigned long m=0;
-    unsigned long h;
-    unsigned const char *us;
+    unsigned long hash = 5381;
+    int c = 0;
 
-    /* cast s to unsigned const char * */
-    /* this ensures that elements of s will be treated as having values >= 0 */
-    us = (unsigned const char *) s;
-    h = 0;
-    while(*us != '\0') {
-        h = (h * BASE + *us) % m;
-        us++;
-    }
+    while (c == *word++)
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
 
-    return h;
+    return hash;
 }
 
 
