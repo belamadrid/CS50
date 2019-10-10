@@ -52,14 +52,14 @@ bool check(const char *word)
 */
 
 
-int hash (const char* word)
+unsigned int hash (const char* word)
 {
     unsigned int hash = 0;
     for (int i = 0 ; word[i] != '\0' ; i++)
     {
         hash = 31*hash + word[i];
     }
-    return hash % SIZE;
+    return hash % LENGTH;
 }
 
 
