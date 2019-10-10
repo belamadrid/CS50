@@ -54,7 +54,7 @@ bool check(const char *word)
 #define MULTIPLIER (37)
 unsigned int hash(const char *s)
 {
-/*
+
     unsigned long h;
     unsigned const char *us;
 
@@ -70,8 +70,8 @@ unsigned int hash(const char *s)
     }
 
     return h;
-*/
-   return 0;
+
+
 }
 
 
