@@ -51,16 +51,29 @@ bool check(const char *word)
     return 0;
 */
 
+/* treat strings as base-256 integers */
+/* with digits in the range 1 to 255 */
+#define BASE (256)
 
-unsigned int hash (const char* word)
+unsigned int hash(const char *word)
 {
-    unsigned int hash = 0;
-    for (int i = 0 ; word[i] != '\0' ; i++)
-    {
-        hash = 31*hash + word[i];
+    const char *s=NULL;
+    unsigned long m=0;
+    unsigned long h;
+    unsigned const char *us;
+
+    /* cast s to unsigned const char * */
+    /* this ensures that elements of s will be treated as having values >= 0 */
+    us = (unsigned const char *) s;
+    h = 0;
+    while(*us != '\0') {
+        h = (h * BASE + *us) % m;
+        us++;
     }
-    return hash % N;
+
+    return h;
 }
+
 
 
 
