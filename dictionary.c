@@ -44,16 +44,8 @@ bool check(const char *word)
 }
 
 // Hashes word to a number
-/* unsigned int hash(const char *word)
 
-    int start = tolower(word[0]) - 'a';
-    //then what do you return?
-    return 0;
-*/
-
-/* treat strings as base-256 integers */
-/* with digits in the range 1 to 255 */
-#define BASE (256)
+//https://github.com/hathix/cs50-section/blob/master/code/7/sample-hash-functions/good-hash-function.c
 
 unsigned int hash(const char* word)
  {
@@ -66,9 +58,6 @@ unsigned int hash(const char* word)
 
      return hash % N;
  }
-
-
-
 
 
 
