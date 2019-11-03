@@ -1,6 +1,7 @@
 from cs50 import SQL
 import sys
 
+# walkthrough with reese on 11/3
 if len(sys.argv) != 2:
     print("Incorrect number of arguments")
     exit()
