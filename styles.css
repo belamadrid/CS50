@@ -1,0 +1,44 @@
+
+body
+{
+    background-color: tomato;
+    color: white;
+    margin-right: 150px;
+    margin-left: 150px;
+    font-family: "Georgia";
+}
+
+.header
+{
+    text-align: center;
+    color: white;
+}
+.container
+{
+    text-align: center;
+    background-color: white;
+    color: tomato;
+    border: 1px solid tomato;
+}
+.col-sm
+{
+    border: 1px solid tomato;
+    color: tomato;
+}
+
+.image
+{
+    text-align: center;
+    color: white;
+}
+
+.column
+{
+  column-count: 2;
+}
+
+p
+{
+    text-indent: 50px;
+}
+
