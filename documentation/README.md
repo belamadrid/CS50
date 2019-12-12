@@ -1,0 +1,10 @@
+User Manual for Maps Elevated
+
+Maps Elevated is a tool to calculate elevation along a walking route. This program will ouput a walking route between two addresses, a chart that displays the changes in elevation along a walking route, and the ratio of uphill walking versus downhill walking (by change in elevation). To use this tool, execute cd final/index to make sure you are in the correct directory. Then, you can start a server to view the site by running $ http-server. Click on the only link to appear: index.html. Welcome to Maps Elevated!
+
+Now that you are on the site, first, you must input an address in the To: box and another address in the From: box. Don't worry about inputting a "complete postal address"--once you click submit, it will automatically change to a complete formatted address. However, be sure to add the city or zip code if this address is likely to exist multiple places. If you decide you want to use different addresses, just hit "reset" and the boxes will clear and the page will refresh.
+
+Once you hit submit, you will receive an alert that shows you your formatted origin and destination addresses. Hit OK and your walking route will appear on the google map. Just above the google map, a elevation chart will appear. This chart shows the elevation in meters for 300 equidistant points along the inputted walking route. Above the elevation chart, a statement should appear that declares the ratio of uphill walking to downhill walking. This ratio gives you an easy to comprehend way to understand how difficult or easy your walking route will be. However, the chart shows you the change in elevation at each point, so it gives you a more in-depth look at what level of difficulty will be. Moreover, if you scroll your mouse over each column in the chart, it will show you the elevation at that exact point.
+
+At this point, the submit button will be grayed out to prevent you from submitting the same route twice. If you would like to try a different route, simply hit the reset button to have the page refresh.
+
