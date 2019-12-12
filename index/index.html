@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- documentation at http://getbootstrap.com/docs/4.1/, alternative themes at https://bootswatch.com/ -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+        <!-- icon from https://favicon.io/emoji-favicons/snow-capped-mountain/ -->
+        <link href="image/hi.ico" rel="icon">
+        <title>Maps Elevated</title>
+        <style>
+
+            #map
+            {
+                margin: auto;
+                height: 300px;
+                width: 75%;
+            }
+
+            .subtitle
+            {
+              font-size: 20px;
+            }
+
+            .calculate
+            {
+              text-align: center;
+              color: gray;
+              margin-top: 20px;
+            }
+
+            .ratio
+            {
+              color: gray;
+              text-align: center;
+            }
+
+
+            .header
+            {
+              padding: 10px;
+              text-align: center;
+              color: white;
+            }
+
+            #elevation_chart
+            {
+              margin: auto;
+              width: 85%;
+            }
+
+            .footer
+            {
+              position: fixed;
+              right: 0;
+              bottom: 0;
+              left: 0;
+              padding: 5px;
+              text-align: right;
+              margin-right: 20px;
+              color: gray;
+              line-height: 16px;
+            }
+
+        </style>
+
+    </head>
+    <!-- maps api link -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcJ8k-Deb-QVeQP7z3U6IHbahEzRxMUjw&libraries=places"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcJ8k-Deb-QVeQP7z3U6IHbahEzRxMUjw&callback=initMap"
+    async defer></script>
+    <body>
+        <div class = "bg-info header">
+          <h1>Maps Elevated</h1>
+          <p class="subtitle">A tool to calculate the elevation along your walking route.</p>
+        </div>
+        <div class = "calculate">
+            <h4>Calculate your route</h4>
+
+            <form id="calculate-route" name="calculate-route" method="get" form action="javascript:void(0);">
+              <label for="from">From:</label>
+              <input type="text" id="from" name="from" required="required" placeholder="An address" size="30" />
+              <label for="to">To:</label>
+              <input type="text" id="to" name="to" required="required" placeholder="Another address" size="30" />
+              <!-- once submitted, you can't submit again unless you reset -->
+              <input class="btn btn-info" id= "submit" type="submit" value="Submit" onClick="this.disabled=true;this.value='Submitted';geocodeAddress();"/>
+              <!-- on reset, refresh the page -->
+              <input class="btn btn-info" type="reset" value="Reset" onclick="init();"/>
+            </form>
+
+        </div>
+        <br />
+
+        <div id = "result">
+          <div class = "ratio">
+            <h2 id="elevation_ratio"></h2>
+          </div>
+          <div id="elevation_chart"></div>
+          <div id="map"></div>
+        </div>
+        <div class="footer">
+          <p1><small>Designed by Bela Madrid</small></p1>
+          </br>
+          <p1><small><a href="mailto:bela.madrid@yale.edu">
+          bela.madrid@yale.edu</a>.</small></p1>
+        </div>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script>
+            // All chart syntax from: https://developers.google.com/chart/interactive/docs/gallery/columnchart
+            // All elevation syntax from: https://developers.google.com/maps/documentation/javascript/elevation
+            // All directions syntax from: https://developers.google.com/maps/documentation/javascript/directions
+            // All geocoding syntax from: https://developers.google.com/maps/documentation/geocoding/intro
+
+            // load corechart
+            google.charts.load('current', {'packages':['corechart']});
+            // define googlemaps tools for using directions
+            var directionsService = new google.maps.DirectionsService();
+            var directionsRenderer = new google.maps.DirectionsRenderer();
+            var map;
+            // define path as an array
+            var path = new Array();
+
+            // make sure page is reloaded when reset
+            function init()
+            {
+              window.location.reload();
+            }
+
+            // initialize preliminary map screen
+            function initMap()
+            {
+              directionsService = new google.maps.DirectionsService();
+              directionsRenderer = new google.maps.DirectionsRenderer();
+              //set to new haven
+              var newhaven = new google.maps.LatLng(41.3083, -72.9279);
+              var mapOptions =
+              {
+                zoom:12,
+                center: newhaven,
+              };
+              var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+              //set map as terrain landscape to capture elevation
+              map.setMapTypeId('terrain');
+              directionsRenderer.setMap(map);
+            }
+
+
+            function geocodeAddress(geocoder, map)
+            {
+
+              var geocoder = new google.maps.Geocoder();
+              var from = document.getElementById('from').value;
+              var to = document.getElementById('to').value;
+
+
+
+              // make sure from and to have inputs
+              if (from == '')
+              {
+                alert("Must enter two addresses");
+                return;
+              }
+              if (to == '')
+              {
+                alert("Must enter two addresses");
+                return;
+              }
+
+              // set new from address as geocoded from address
+              var newfrom = '';
+              geocoder.geocode({'address': from}, function(results, status)
+              {
+
+                if (status == 'OK')
+                {
+                  document.getElementById('from').value = results[0].formatted_address;
+                  newfrom = results[0].formatted_address;
+                }
+                else
+                {
+                  alert("Geocode error: " + status);
+                }
+
+              });
+
+              // set new to address as geocoded to address
+              var newto = '';
+              geocoder.geocode({'address': to}, function (results, status)
+              {
+                if (status == google.maps.GeocoderStatus.OK)
+                {
+                  document.getElementById('to').value = results[0].formatted_address;
+                  newto = results[0].formatted_address;
+                }
+                else
+                {
+                  alert("Geocode error: " + status);
+                }
+
+              });
+
+              setTimeout(function()
+              {
+                console.log(newfrom, newto);
+              }, 1000);
+
+              // set origin and destination as from and to values
+              var request =
+              {
+                  origin: document.getElementById('from').value,
+                  destination: document.getElementById('to').value,
+                  travelMode: 'WALKING'
+              };
+
+              path = [];
+              directionsService.route(request, function(response, status)
+                {
+
+                  if (status  == google.maps.GeocoderStatus.OK)
+                  {
+                    directionsRenderer.setDirections(response);
+                    directionsRenderer.setOptions({
+                      polylineOptions: {
+                        strokeColor: '#5bc0de'
+                      }
+                    });
+                    alert("From: " +document.getElementById('from').value+" To: "+document.getElementById('to').value);
+                    // Returns a simplified version of all the coordinates on the path
+                    points = response.routes[0].overview_path;
+                    var i = 0;
+                    // get long lat of points along route
+                    for (i = 0; i < points.length; i++)
+                    {
+                        lat = points[i].lat();
+                        lng = points[i].lng();
+                        // save lat long in path array
+                        path.push(new google.maps.LatLng(lat, lng));
+                    }
+                    setTimeout(function() { console.log("path1:",path); }, 900);
+                    setTimeout(function() { display_elevation(path, elevate, map); }, 1000);
+                  }
+
+                  else
+                  {
+                    alert('Directions request failed due to ' + status);
+                  }
+                });
+
+              // use api ElevationService
+              var elevate = new google.maps.ElevationService;
+              display_elevation(path, elevate, map);
+
+              function display_elevation(path, elevate, map)
+              {
+
+
+                elevate.getElevationAlongPath(
+                {
+                    'path': path,
+                    'samples': 300,
+                }, plotElevation);
+
+
+                function plotElevation(elevations, status)
+                {
+
+                  console.log("elevation result:", elevations);
+                  console.log("status:", status);
+
+                  // create a new chart in elevation
+                  var chartDiv = document.getElementById('elevation_chart');
+                  if (status === 'OK')
+                  {
+
+                    // Create a new chart in the elevation_chart DIV.
+                    var chart = new google.visualization.ColumnChart(chartDiv);
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Sample');
+                    data.addColumn('number', 'Elevation');
+                    var upslope = 0;
+                    var downslope = 0;
+                    var i = 0;
+
+                    for (i=0; i < elevations.length; i++)
+                    {
+                      console.log(elevations[i].elevation);
+                      // add each elevation point to data
+                      data.addRow(['', elevations[i].elevation]);
+                      if (i < (elevations.length-1))
+                      {
+                        var first = elevations[i].elevation;
+                        var second = elevations[(i+1)].elevation;
+                        var difference = second - first;
+                        // check if change between each two elevation points is a downslope or upslope
+                        if (difference > 0)
+                        {
+                          // if upslope, add up total amount of upslope elevation
+                          upslope = difference + upslope;
+                        }
+                        if (difference < 0)
+                        {
+                          // if downslope, add up total amount of downslope elevation
+                          downslope = difference + downslope;
+                        }
+                      }
+                    }
+
+                    downslope = (-1 * downslope);
+                    if (upslope > downslope)
+                    {
+                      // divide uplsope by downslope to get ratio
+                      var ratio = (upslope/downslope).toFixed(2);
+                      // print ratio to page
+                      var elevation_ratio = "The ratio of uphill walking to downhill walking is " + ratio + " : 1";
+                      document.getElementById('elevation_ratio').innerHTML = elevation_ratio;
+                    }
+                    if (upslope < downslope)
+                    {
+                      // divide downslope by upslope to get ratio
+                      var ratio = (downslope/upslope).toFixed(2);
+                      // print ratio to page
+                      var elevation_ratio = "The ratio of uphill walking to downhill walking is 1 : " + ratio;
+                      document.getElementById('elevation_ratio').innerHTML = elevation_ratio;
+                    }
+
+                    //draw chart
+                    chart.draw(data,
+                    {
+                      height: 150,
+                      legend: 'none',
+                      // change color to webpage color
+                      colors: ['#5bc0de'],
+                      vAxis:
+                        {title: '\n\n\nElevation (m)', },
+
+                    });
+
+
+
+                  }
+
+                }
+              }
+            }
+
+        </script>
+    </body>
+</html>
